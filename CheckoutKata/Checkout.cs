@@ -20,9 +20,7 @@ namespace CheckoutKata
 
         public decimal GetTotal()
         {
-            var total = 0m;
-
-            return total;
+            return _pricingService.CalculatePrice(_items);
         }
     }
 }
