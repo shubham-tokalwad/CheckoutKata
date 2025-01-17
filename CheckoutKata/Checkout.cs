@@ -20,28 +20,7 @@ namespace CheckoutKata
         public decimal Total()
         {
             var total = 0m;
-            var groupedItems = _scannedItems.GroupBy(i => i.SKU);
-
-            foreach (var group in groupedItems)
-            {
-                var sku = group.Key;
-                var quantity = group.Count();
-                var item = group.First();
-                var offer = _specialOffers.FirstOrDefault(o => o.SKU == sku);
-
-                if (offer != null)
-                {
-                    var offerBundles = quantity / offer.Quantity;
-                    var remainingItems = quantity % offer.Quantity;
-
-                    total += offerBundles * offer.OfferPrice + remainingItems * item.UnitPrice;
-                }
-                else
-                {
-                    total += quantity * item.UnitPrice;
-                }
-            }
-
+            
             return total;
         }
 
