@@ -1,28 +1,28 @@
-﻿using Kata.Core.Models;
+﻿using Kata.Core.Interface;
 
 namespace CheckoutKata
 {
-    public class Checkout
+    public class Checkout : ICheckout
     {
-        private readonly List<Item> _scannedItems = new List<Item>();
-        private readonly List<SpecialOffer> _specialOffers;
+        private readonly List<string> _items = new List<string>();
+        private readonly IPricingService _pricingService;
 
-        public Checkout(List<SpecialOffer> specialOffers)
+        public Checkout(IPricingService pricingService)
         {
-            _specialOffers = specialOffers;
+            _pricingService = pricingService;
         }
 
-        public void Scan(Item item)
+        public void Scan(string item)
         {
-            _scannedItems.Add(item);
+            if (!string.IsNullOrEmpty(item))
+                _items.Add(item);
         }
 
-        public decimal Total()
+        public decimal GetTotal()
         {
             var total = 0m;
-            
+
             return total;
         }
-
     }
 }

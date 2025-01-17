@@ -20,7 +20,8 @@ namespace Kata.Core.Services
             {
                 var total = 0m;
 
- 
+                if (scannedItems.Any())
+                {
                     var groupedItems = scannedItems.GroupBy(item => item);
 
                     foreach (var group in groupedItems)
@@ -29,6 +30,9 @@ namespace Kata.Core.Services
                         var quantity = group.Count();
 
                         var item = _items.FirstOrDefault(i => i.SKU == sku);
+
+                        if (item == null)
+                            throw new InvalidOperationException($"Invalid SKU scanned: {sku}");
 
                         var offer = _specialOffers.FirstOrDefault(o => o.SKU == item!.SKU);
 
@@ -43,6 +47,8 @@ namespace Kata.Core.Services
                         {
                             total += quantity * item.UnitPrice;
                         }
+
+                    }
                 }
                 return total;
             }
