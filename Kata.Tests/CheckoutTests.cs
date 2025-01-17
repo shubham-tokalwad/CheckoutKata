@@ -198,5 +198,30 @@ namespace Kata.Tests
             Assert.Equal(0.00m, total);
         }
 
+        [Fact]
+        public void CalculatePrice_CheckException()
+        {
+            // Arrange
+            var items = new List<Item>
+            {
+                new Item("A99", 0.50m)
+            };
+
+            var specialOffers = new List<SpecialOffer>
+            {
+                new SpecialOffer(null, 3, 1.30m)
+            };
+
+            var pricingService = new PricingService(items, specialOffers);
+            var scannedItems = new List<string> { "B15" };
+
+            // Act & Assert
+            var exception = Assert.Throws<InvalidOperationException>(() =>
+            {
+                pricingService.CalculatePrice(scannedItems);
+            });
+
+            Assert.Contains("Error calculating total.", exception.Message);
+        }
     }
 }
